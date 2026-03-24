@@ -1,0 +1,31 @@
+name: Parse Workout Logs
+
+on:
+  push:
+    paths:
+      - 'logs/raw/*.txt'
+
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Parse new workout logs
+        run: python scripts/parse_workout.py
+
+      - name: Commit parsed JSON
+        run: |
+          git config user.name "workout-bot"
+          git config user.email "bot@workout.local"
+          git add logs/json/*.json
+          git diff --staged --quiet || git commit -m "auto: parse workout logs"
+          git push
