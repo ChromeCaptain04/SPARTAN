@@ -1,4 +1,0 @@
-2026-03-26 | 1 | accumulation | 8 | test3
-Squat: 106x5@8, 107.5x5@8.5
-Bench: 80x5@7, 82.5x5@8
-RDL: 70x8@7
