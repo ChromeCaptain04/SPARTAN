@@ -1,3 +1,7 @@
+- Effort is periodized such that deload phases are built into the program to ensure longevity. 
+- The way the program is set up aligns with the method I used to achieve a 100kg bench press, specifically an accumulation and leaking phase.
+- The main difference to my previous program is submaximal effort 
+
 Three mesocycles:
 
 1. Accumulation phase:
@@ -12,6 +16,7 @@ Three mesocycles:
 
 3. Peaking phase:
 - Heavy singles
+- Only go for 1rm in the final week
 
 Four microcycles:
 
