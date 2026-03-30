@@ -9,19 +9,8 @@
       "sets": [
         {
           "weight_kg": 25.0,
-          "reps": 8
-        },
-        {
-          "weight_kg": 25.0,
-          "reps": 8
-        },
-        {
-          "weight_kg": 25.0,
-          "reps": 8
-        },
-        {
-          "weight_kg": 25.0,
-          "reps": 8
+          "reps": 8,
+          "count": 4
         },
         {
           "weight_kg": 25.0,
@@ -34,11 +23,8 @@
       "sets": [
         {
           "weight_kg": 15.0,
-          "reps": 8
-        },
-        {
-          "weight_kg": 15.0,
-          "reps": 8
+          "reps": 8,
+          "count": 2
         },
         {
           "weight_kg": 15.0,
@@ -55,23 +41,8 @@
       "sets": [
         {
           "weight_kg": 12.5,
-          "reps": 8
-        },
-        {
-          "weight_kg": 12.5,
-          "reps": 8
-        },
-        {
-          "weight_kg": 12.5,
-          "reps": 8
-        },
-        {
-          "weight_kg": 12.5,
-          "reps": 8
-        },
-        {
-          "weight_kg": 12.5,
-          "reps": 8
+          "reps": 8,
+          "count": 5
         }
       ]
     }
