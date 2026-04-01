@@ -1,26 +1,14 @@
-- Effort is periodized such that deload phases are built into the program to ensure longevity. 
-- The way the program is set up aligns with the method I used to achieve a 100kg bench press, specifically an accumulation and leaking phase.
-- The main difference to my previous program is submaximal effort 
+Split:
+3x Full body, 1x Arm
+Heavy bench on every full body day
+1 on, 1 off, 1 on, 1 off, 2 on, 1 off
+1 - 0 - 1 - 0 - 1 - 1 - 0
 
-Three mesocycles:
+Accumulation phase:
+- 6-8 reprange
 
-1. Accumulation phase:
-- Build muscle tissue
-- progressively overload in the 6-8 rep range
-- 10-20 sets per muscle group per week
+Strength phase:
+- 3-6 reprange
 
-2. Strength phase:
-- progressively overload in the 3-6 rep range
-- 8 sets per muscle group per week
 
-3. Peaking phase:
-- Heavy singles
-- Only go for 1rm in the final week
-
-Four microcycles:
-
-Week 1 (conservative): roughly RPE 7
-Week 2 (moderate): RPE 8
-Week 3 (Hard): RPE 9
-Week 4 (Maximum effort): Near RPE 10 
  
