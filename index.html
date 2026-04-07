@@ -677,7 +677,7 @@
       flex: 1;
     }
 
-    /* PRs (Moved to Dashboard) */
+    /* PRs */
     .pr-ex-block {
       margin-bottom: 1.5rem;
     }
@@ -861,11 +861,13 @@
           autocorrect="off" autocapitalize="off"></div>
       <div><label>Repository Name</label><input id="cfg-repo" type="text" placeholder="spartan-logs" autocomplete="off"
           autocorrect="off" autocapitalize="off"></div>
+      <div><label>Branch Name</label><input id="cfg-branch" type="text" placeholder="main" value="main"
+          autocomplete="off" autocorrect="off" autocapitalize="off"></div>
       <div>
         <label>Personal Access Token</label>
         <input id="cfg-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
-        <div class="config-hint" style="margin-top:0.75rem">Stored locally. Requires <a
-            href="https://github.com/settings/tokens/new" target="_blank">repo scope</a>.</div>
+        <div class="config-hint" style="margin-top:0.75rem">Stored locally. Requires both <strong>repo</strong> and
+          <strong>workflow</strong> scopes to reprocess archives.</div>
       </div>
       <button class="btn" onclick="saveConfig()">Enter</button>
     </div>
@@ -961,20 +963,23 @@
     // ── CONFIG ────────────────────────────────────────────────
     let CFG = {};
     function saveConfig() {
-      const u = document.getElementById('cfg-user').value.trim(), r = document.getElementById('cfg-repo').value.trim(), t = document.getElementById('cfg-token').value.trim();
+      const u = document.getElementById('cfg-user').value.trim(),
+        r = document.getElementById('cfg-repo').value.trim(),
+        b = document.getElementById('cfg-branch').value.trim() || 'main',
+        t = document.getElementById('cfg-token').value.trim();
       if (!u || !r || !t) { alert('Incomplete configuration.'); return; }
-      CFG = { user: u, repo: r, token: t }; localStorage.setItem('spartan_cfg', JSON.stringify(CFG)); enterApp();
+      CFG = { user: u, repo: r, branch: b, token: t }; localStorage.setItem('spartan_cfg', JSON.stringify(CFG)); enterApp();
     }
-    function loadConfig() { try { const s = localStorage.getItem('spartan_cfg'); if (s) { CFG = JSON.parse(s); if (CFG.user && CFG.repo && CFG.token) enterApp(); } } catch (e) { } }
+    function loadConfig() { try { const s = localStorage.getItem('spartan_cfg'); if (s) { CFG = JSON.parse(s); if (CFG.user && CFG.repo && CFG.token) { document.getElementById('cfg-user').value = CFG.user; document.getElementById('cfg-repo').value = CFG.repo; document.getElementById('cfg-branch').value = CFG.branch || 'main'; document.getElementById('cfg-token').value = CFG.token; enterApp(); } } } catch (e) { } }
     function enterApp() { document.getElementById('config-screen').style.display = 'none'; document.getElementById('app').style.display = 'block'; loadAllWorkouts(); }
 
     // ── GITHUB ────────────────────────────────────────────────
     const API = () => `https://api.github.com/repos/${CFG.user}/${CFG.repo}`;
     const HDR = () => ({ 'Authorization': `token ${CFG.token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' });
     function b64d(s) { return decodeURIComponent(escape(atob(s.replace(/\n/g, '')))); }
-    async function ghGet(path) { const r = await fetch(`${API()}/contents/${path}`, { headers: HDR() }); if (!r.ok) throw new Error(r.status); return r.json(); }
+    async function ghGet(path) { const r = await fetch(`${API()}/contents/${path}?ref=${CFG.branch || 'main'}`, { headers: HDR() }); if (!r.ok) throw new Error(r.status); return r.json(); }
     async function ghPut(path, msg, content, sha) {
-      const body = { message: msg, content: btoa(unescape(encodeURIComponent(content))), ...(sha ? { sha } : {}) };
+      const body = { message: msg, content: btoa(unescape(encodeURIComponent(content))), branch: CFG.branch || 'main', ...(sha ? { sha } : {}) };
       const r = await fetch(`${API()}/contents/${path}`, { method: 'PUT', headers: HDR(), body: JSON.stringify(body) });
       if (!r.ok) throw new Error((await r.json()).message || 'API error');
       return r.json();
@@ -1435,7 +1440,7 @@
         const r = await fetch(`${API()}/actions/workflows/parse.yml/dispatches`, {
           method: 'POST',
           headers: HDR(),
-          body: JSON.stringify({ ref: 'main', inputs: { force_reprocess: 'true' } })
+          body: JSON.stringify({ ref: CFG.branch || 'main', inputs: { force_reprocess: 'true' } })
         });
         if (r.status === 204 || r.ok) {
           el.className = 'status-msg ok';
@@ -1495,7 +1500,7 @@
       const btn = document.getElementById('submit-btn'); btn.disabled = true; setStatus('', 'Committing to GitHub...');
       try {
         let sha;
-        try { const e = await fetch(`${API()}/contents/${filename}`, { headers: HDR() }); if (e.ok) sha = (await e.json()).sha; } catch (e) { }
+        try { const e = await fetch(`${API()}/contents/${filename}?ref=${CFG.branch || 'main'}`, { headers: HDR() }); if (e.ok) sha = (await e.json()).sha; } catch (e) { }
         await ghPut(filename, `log: record ${dm[1]}`, text, sha);
         setStatus('ok', '✓ Committed successfully. Updating archive in ~35s.');
         document.getElementById('log-input').value = '';
