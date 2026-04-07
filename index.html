@@ -82,13 +82,6 @@
       text-transform: uppercase;
     }
 
-    .config-sub {
-      color: var(--muted);
-      font-size: 0.85rem;
-      text-align: center;
-      letter-spacing: 0.05em;
-    }
-
     .config-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -148,7 +141,7 @@
       padding: 0 1.5rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       height: 60px;
       position: sticky;
       top: 0;
@@ -168,36 +161,6 @@
 
     .logo.flash {
       color: var(--text);
-    }
-
-    .header-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .header-meta {
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-align: right;
-      line-height: 1.4;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .header-reconfig {
-      font-size: 0.6rem;
-      color: var(--muted2);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      margin-top: 0.25rem;
-      transition: color 0.2s;
-    }
-
-    .header-reconfig:hover {
-      color: var(--accent);
     }
 
     nav {
@@ -399,11 +362,6 @@
       font-size: 0.85rem;
       padding: 0.25rem 0.5rem;
       color: var(--text);
-    }
-
-    .set-num {
-      color: var(--muted2);
-      margin-right: 0.25rem;
     }
 
     .set-count {
@@ -864,9 +822,25 @@
       padding: 0.6rem 1rem;
       font-size: 0.75rem;
       color: var(--muted);
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       z-index: 200;
       letter-spacing: 0.05em;
+    }
+
+    .footer-reconfig {
+      font-size: 0.65rem;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: color 0.2s;
+      font-weight: bold;
+    }
+
+    .footer-reconfig:hover {
+      color: var(--accent);
     }
   </style>
 </head>
@@ -876,14 +850,9 @@
   <!-- CONFIG -->
   <div id="config-screen">
     <div class="config-title">SPARTAN</div>
-    <div class="config-sub">DISCIPLINE · FOCUS · PROGRESS</div>
     <div class="config-card">
       <div><label>GitHub Username</label><input id="cfg-user" type="text" placeholder="username" autocomplete="off"
           autocorrect="off" autocapitalize="off"></div>
-      <div><label>Repository Name</label><input id="cfg-repo" type="text" placeholder="SPARTAN" autocomplete="off"
-          autocorrect="off" autocapitalize="off"></div>
-      <div><label>Branch Name</label><input id="cfg-branch" type="text" placeholder="main" value="main"
-          autocomplete="off" autocorrect="off" autocapitalize="off"></div>
       <div>
         <label>Personal Access Token</label>
         <input id="cfg-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
@@ -898,10 +867,6 @@
   <div id="app">
     <header>
       <div class="logo" id="logo" onclick="handleLogoTap()">SPARTAN</div>
-      <div class="header-right">
-        <div class="header-meta" id="header-meta"></div>
-        <div class="header-reconfig" onclick="resetConfig()">[ RECONFIGURE ]</div>
-      </div>
     </header>
     <nav>
       <button class="active" onclick="switchTab('dashboard',this)">Dashboard</button>
@@ -951,7 +916,7 @@
         <span>YYYY-MM-DD | week_num | phase | notes</span><br>
         Exercise: <span>weightxreps, weightxreps</span><br>
         <br>
-        <strong>ENDURANCE SHORTHAND</strong><br>
+        <strong>RUNNING SHORTHAND</strong><br>
         <span>YYYY-MM-DD | run | type | notes</span><br>
         <span>distance | time | pace | hr</span><br>
         Intervals: <span>(Optional details on subsequent lines)</span>
@@ -980,7 +945,10 @@
       <div id="all-content"></div>
     </div>
 
-    <div class="footnote">Double-tap SPARTAN logo to access the comprehensive archive.</div>
+    <div class="footnote">
+      <span>Double-tap SPARTAN logo to access the comprehensive archive.</span>
+      <span class="footer-reconfig" onclick="resetConfig()">[ RECONFIGURE ]</span>
+    </div>
   </div>
 
   <script>
@@ -988,13 +956,13 @@
     let CFG = {};
     function saveConfig() {
       const u = document.getElementById('cfg-user').value.trim(),
-        r = document.getElementById('cfg-repo').value.trim(),
-        b = document.getElementById('cfg-branch').value.trim() || 'main',
+        r = 'SPARTAN',
+        b = 'main',
         t = document.getElementById('cfg-token').value.trim();
-      if (!u || !r || !t) { alert('Incomplete configuration.'); return; }
+      if (!u || !t) { alert('Incomplete configuration.'); return; }
       CFG = { user: u, repo: r, branch: b, token: t }; localStorage.setItem('spartan_cfg', JSON.stringify(CFG)); enterApp();
     }
-    function loadConfig() { try { const s = localStorage.getItem('spartan_cfg'); if (s) { CFG = JSON.parse(s); if (CFG.user && CFG.repo && CFG.token) { document.getElementById('cfg-user').value = CFG.user; document.getElementById('cfg-repo').value = CFG.repo; document.getElementById('cfg-branch').value = CFG.branch || 'main'; document.getElementById('cfg-token').value = CFG.token; enterApp(); } } } catch (e) { } }
+    function loadConfig() { try { const s = localStorage.getItem('spartan_cfg'); if (s) { CFG = JSON.parse(s); if (CFG.user && CFG.repo && CFG.token) { document.getElementById('cfg-user').value = CFG.user; document.getElementById('cfg-token').value = CFG.token; enterApp(); } } } catch (e) { } }
     function enterApp() { document.getElementById('config-screen').style.display = 'none'; document.getElementById('app').style.display = 'block'; loadAllWorkouts(); }
     function resetConfig() { localStorage.removeItem('spartan_cfg'); location.reload(); }
 
@@ -1026,7 +994,6 @@
         WEIGHT_WORKOUTS = ALL_WORKOUTS.filter(w => w.type !== 'run');
         RUN_WORKOUTS = ALL_WORKOUTS.filter(w => w.type === 'run');
 
-        updateHeaderMeta();
         renderDashboard();
         renderCycleHTML();
         renderPRs();
@@ -1037,12 +1004,6 @@
       } catch (e) {
         document.getElementById('dash-content').innerHTML = `<div class="empty-state">Archive inaccessible.<br>Verify GitHub configuration.</div>`;
       }
-    }
-
-    function updateHeaderMeta() {
-      if (!WEIGHT_WORKOUTS.length) return;
-      const last = WEIGHT_WORKOUTS[WEIGHT_WORKOUTS.length - 1];
-      document.getElementById('header-meta').innerHTML = `Week ${last.week}<br>${last.phase}`;
     }
 
     // ── HELPERS ───────────────────────────────────────────────
@@ -1056,10 +1017,10 @@
     }
 
     function chips(sets) {
-      return sets.map((s, i) => {
+      return sets.map((s) => {
         const kg = `${s.weight_kg}kg`;
         const rep = `×${s.reps}`;
-        const countPfx = s.count && s.count > 1 ? `<span class="set-count">${s.count}×</span>` : `<span class="set-num">${i + 1}.</span>`;
+        const countPfx = s.count && s.count > 1 ? `<span class="set-count">${s.count}×</span>` : '';
         return `<span class="set-chip">${countPfx}${kg}${rep}</span>`;
       }).join('');
     }
@@ -1083,7 +1044,6 @@
     }
     function weeklyMiles(currentDateStr) {
       if (!currentDateStr) return 0;
-      // Approximating "week" by last 7 days for running, since runs aren't tied to "week_num" 
       const targetDate = new Date(currentDateStr).getTime();
       const weekStart = targetDate - (7 * 24 * 60 * 60 * 1000);
 
@@ -1136,10 +1096,10 @@
       </div>`;
       }
 
-      // --- ENDURANCE SECTION ---
-      html += `<div class="section-title" style="margin-top:2.5rem;">Endurance</div>`;
+      // --- RUNNING SECTION ---
+      html += `<div class="section-title" style="margin-top:2.5rem;">Running</div>`;
       if (!RUN_WORKOUTS.length) {
-        html += `<div class="empty-state">No endurance data archived.</div>`;
+        html += `<div class="empty-state">No running data archived.</div>`;
       } else {
         const lastR = RUN_WORKOUTS[RUN_WORKOUTS.length - 1];
         const allMi = totalMiles().toFixed(1);
@@ -1334,11 +1294,11 @@
     // ── RUNNING TAB (HISTORY) ─────────────────────────────────
     function renderRunning() {
       if (!RUN_WORKOUTS.length) {
-        document.getElementById('running-content').innerHTML = `<div class="empty-state">No endurance data archived.</div>`;
+        document.getElementById('running-content').innerHTML = `<div class="empty-state">No running data archived.</div>`;
         return;
       }
 
-      let html = `<div class="section-title">Endurance Archive</div>`;
+      let html = `<div class="section-title">Running Archive</div>`;
 
       const runs = [...RUN_WORKOUTS].reverse();
       html += runs.map((r, ri) => {
