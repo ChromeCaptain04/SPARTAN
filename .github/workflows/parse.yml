@@ -1,4 +1,4 @@
-name: Parse Workout Logs
+name: Parse Spartan Logs
 
 on:
   push:
@@ -30,10 +30,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Parse workout logs
+      - name: Parse logs
         run: |
           if [ "${{ github.event.inputs.force_reprocess }}" = "true" ]; then
-            echo "Force reprocessing all files..."
+            echo "Force reprocessing all archives..."
             python scripts/parse_workout.py --force
           else
             python scripts/parse_workout.py
@@ -41,8 +41,8 @@ jobs:
 
       - name: Commit parsed JSON
         run: |
-          git config user.name "workout-bot"
-          git config user.email "bot@workout.local"
+          git config user.name "spartan-bot"
+          git config user.email "bot@spartan.local"
           git add logs/json/*.json
-          git diff --staged --quiet || git commit -m "auto: parse workout logs"
+          git diff --staged --quiet || git commit -m "auto: parse spartan logs"
           git push
