@@ -1,0 +1,49 @@
+{
+  "date": "2026-03-29",
+  "type": "weights",
+  "notes": "legs sore so no deadlift",
+  "exercises": [
+    {
+      "name": "Close grip dumbell press",
+      "sets": [
+        {
+          "weight_kg": 25.0,
+          "reps": 8,
+          "count": 4
+        },
+        {
+          "weight_kg": 25.0,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "name": "Seated dumbell curls",
+      "sets": [
+        {
+          "weight_kg": 15.0,
+          "reps": 8,
+          "count": 2
+        },
+        {
+          "weight_kg": 15.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 15.0,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "name": "Wrist curls",
+      "sets": [
+        {
+          "weight_kg": 12.5,
+          "reps": 8,
+          "count": 5
+        }
+      ]
+    }
+  ]
+}
