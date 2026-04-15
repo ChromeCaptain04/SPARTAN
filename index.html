@@ -905,7 +905,7 @@
 
     <div id="panel-all">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
-        <div class="section-title" style="margin:0; border:none;">Comprehensive Archive</div>
+        <div class="section-title" style="margin:0; border:none;">Exercise History</div>
         <button class="btn-sm ghost" onclick="closeAll()">Return</button>
       </div>
       <div id="all-content"></div>
@@ -913,7 +913,7 @@
 
     <div class="footnote">
       <span style="visibility:hidden" class="footer-reconfig">[ RECONFIGURE ]</span>
-      <span class="footer-center">Double-tap SPARTAN logo to access archive.</span>
+      <span class="footer-center">Double-tap SPARTAN logo to access exercise history.</span>
       <span class="footer-reconfig" onclick="resetConfig()">[ RECONFIGURE ]</span>
     </div>
   </div>
@@ -982,7 +982,7 @@
         renderPRs();
         renderProgress();
         renderRunning();
-        renderAllWorkouts();
+        renderExerciseHistory();
         loadPhilosophy();
       } catch (e) {
         document.getElementById('dash-content').innerHTML = `<div class="empty-state">Archive inaccessible.<br>Verify GitHub configuration.</div>`;
@@ -1123,7 +1123,7 @@
             ${lastR.distance ? `<div class="run-metric"><span class="run-metric-lbl">Distance</span><span class="run-metric-val">${lastR.distance} mi</span></div>` : ''}
             ${lastR.time ? `<div class="run-metric"><span class="run-metric-lbl">Time</span><span class="run-metric-val">${lastR.time}</span></div>` : ''}
             ${lastR.heartrate ? `<div class="run-metric"><span class="run-metric-lbl">Heartrate</span><span class="run-metric-val">${lastR.heartrate} bpm</span></div>` : ''}
-            ${lastR.pace ? `<div class="run-metric"><span class="run-metric-lbl">Avg Pace</span><span class="run-metric-val">${lastR.pace} mins per mile</span></div>` : ''}
+            ${lastR.pace ? `<div class="run-metric"><span class="run-metric-lbl">Avg Pace</span><span class="run-metric-val">${lastR.pace} minutes per mile</span></div>` : ''}
         </div>
         ${intervalsHtml}
         ${lastR.notes ? `<div class="card-sub" style="margin-top:1rem;border-top:1px solid var(--border);padding-top:0.75rem">${lastR.notes}</div>` : ''}
@@ -1149,11 +1149,10 @@
       let html = `<div class="section-title" style="margin-top:2.5rem; display:flex; justify-content:space-between; align-items:baseline;">
                     <div style="display:flex; align-items:center; gap:0.5rem;">
                       <span>Weightlifting Tracker</span>
-                      <div style="background:var(--accent); color:var(--surface); width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:bold;" title="Prestige Level">${prestige}</div>
                     </div>
                   </div>`;
 
-      html += `<div class="cycle-wrap"><div class="tube-scroll"><div class="tube-map">`;
+      html += `<div class="cycle-wrap" style="padding: 1.5rem 1.25rem;"><div class="tube-scroll"><div class="tube-map" style="padding: 1rem 0.5rem;">`;
 
       for (let i = 0; i <= 36; i++) {
         let col = 'var(--border)';
@@ -1161,7 +1160,7 @@
 
         if (i === 0) {
           col = 'var(--accent)'; // Bronze start
-          size = 'lg';
+          size = 'xl';
         } else if (i <= 12) {
           col = 'var(--acc)'; // Blue
           size = (i % 4 === 0) ? 'lg' : 'sm';
@@ -1171,21 +1170,30 @@
         } else if (i <= 36) {
           col = 'var(--pek)'; // Red
           size = (i % 4 === 0) ? 'lg' : 'sm';
-          if (i === 36) { col = '#D4AF37'; } // Gold finisher
+          if (i === 36) { col = '#D4AF37'; size = 'xl'; } // Gold finisher
         }
 
         const isLit = (i <= currentW);
         const opacity = isLit ? 1 : 0.2;
-        const bg = isLit ? col : 'var(--muted2)';
 
         if (i > 0) {
           const lineBg = isLit ? col : 'var(--border)';
-          const lineW = size === 'lg' ? 14 : 10;
-          html += `<div class="t-line" style="width:${lineW}px; background:${lineBg}; height:3px;"></div>`;
+          let lineW = 12;
+          if (size === 'xl') lineW = 18;
+          else if (size === 'lg') lineW = 16;
+          html += `<div class="t-line" style="width:${lineW}px; background:${lineBg}; height:4px;"></div>`;
         }
 
-        const dotSize = size === 'lg' ? 22 : 10;
-        html += `<div style="width:${dotSize}px; height:${dotSize}px; background:${col}; opacity:${opacity}; border-radius:50%; flex-shrink:0;"></div>`;
+        let dotSize = 12;
+        if (size === 'lg') dotSize = 24;
+        if (size === 'xl') dotSize = 36;
+
+        let innerContent = '';
+        if (i === 0) {
+          innerContent = `<span style="color:var(--surface); font-family: 'Georgia', 'Times New Roman', serif; font-size:1.1rem; font-weight:normal;">${prestige}</span>`;
+        }
+
+        html += `<div style="width:${dotSize}px; height:${dotSize}px; background:${col}; opacity:${opacity}; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center;">${innerContent}</div>`;
       }
 
       html += `</div></div></div>`;
@@ -1236,23 +1244,24 @@
 
     // ── WEIGHTLIFTING (PROGRESS) ──────────────────────────────
     function renderProgress() {
-      if (!WEIGHT_WORKOUTS.length) { document.getElementById('progress-content').innerHTML = `<div class="empty-state">No strength data archived.</div>`; return; }
-      const names = [];
-      WEIGHT_WORKOUTS.forEach(w => w.exercises.forEach(ex => { if (!names.includes(ex.name)) names.push(ex.name); }));
-      names.sort();
-      let html = '';
-      names.forEach(name => {
-        const sessions = WEIGHT_WORKOUTS.filter(w => w.exercises.some(e => e.name === name)).slice(-3).reverse();
-        const rows = sessions.map((w, ri) => {
-          const ex = w.exercises.find(e => e.name === name);
-          const tag = ri === 0 ? `<span class="recency-latest">Latest</span>` : '';
-          return `<div class="recent-session-row">
-        <div class="rs-date-col"><span class="rs-date">${w.date.slice(5)}</span>${tag}</div>
-        <div class="rs-sets">${chips(ex.sets)}</div>
-      </div>`;
-        }).join('');
-        html += `<div class="progress-ex-block card"><div class="progress-ex-title">${name}</div>${rows}</div>`;
-      });
+      if (!WEIGHT_WORKOUTS.length) { document.getElementById('progress-content').innerHTML = `<div class="empty-state">No weightlifting data archived.</div>`; return; }
+      let html = `<div class="section-title">Weightlifting Archive</div>`;
+      html += [...WEIGHT_WORKOUTS].reverse().map((w, ri) => {
+        const tag = ri === 0 ? `<span class="recency-latest">Latest</span>` : '';
+        const n = weightWorkoutNum(w);
+        const exHTML = w.exercises.map(ex => `<div class="exercise-row"><div class="ex-name">${ex.name}</div><div class="sets-row">${chips(ex.sets)}</div></div>`).join('');
+
+        return `<div class="all-session-block">
+          <div class="all-session-hdr">
+            <div class="all-session-left"><div class="all-wnum">#${n}</div><div class="all-session-date">${w.date}</div>${tag}</div>
+            <div class="plain-tag">WEIGHTLIFTING</div>
+          </div>
+          <div class="all-session-body">
+            ${exHTML}
+            ${w.notes ? `<div class="card-sub" style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border)">${w.notes}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('');
       document.getElementById('progress-content').innerHTML = html;
     }
 
@@ -1284,7 +1293,7 @@
                     ${r.distance ? `<div class="run-metric"><span class="run-metric-lbl">Distance</span><span class="run-metric-val">${r.distance} mi</span></div>` : ''}
                     ${r.time ? `<div class="run-metric"><span class="run-metric-lbl">Time</span><span class="run-metric-val">${r.time}</span></div>` : ''}
                     ${r.heartrate ? `<div class="run-metric"><span class="run-metric-lbl">Heartrate</span><span class="run-metric-val">${r.heartrate} bpm</span></div>` : ''}
-                    ${r.pace ? `<div class="run-metric"><span class="run-metric-lbl">Avg Pace</span><span class="run-metric-val">${r.pace} mins per mile</span></div>` : ''}
+                    ${r.pace ? `<div class="run-metric"><span class="run-metric-lbl">Avg Pace</span><span class="run-metric-val">${r.pace} minutes per mile</span></div>` : ''}
                 </div>
                 ${intervalsHtml}
                 ${r.notes ? `<div class="card-sub" style="margin-top:1rem;border-top:1px solid var(--border);padding-top:0.75rem">${r.notes}</div>` : ''}
@@ -1337,49 +1346,25 @@
       });
     }
 
-    // ── ALL WORKOUTS ──────────────────────────────────────────
-    function renderAllWorkouts() {
-      if (!ALL_WORKOUTS.length) { document.getElementById('all-content').innerHTML = `<div class="empty-state">Archive empty.</div>`; return; }
-      const html = [...ALL_WORKOUTS].reverse().map((w, ri) => {
-        const tag = ri === 0 ? `<span class="recency-latest">Latest</span>` : '';
-
-        if (w.type === 'run') {
-          let intervalsHtml = '';
-          if (w.intervals && w.intervals.length > 0) {
-            intervalsHtml = `<div class="run-intervals">${w.intervals.join('\n')}</div>`;
-          }
-          return `<div class="all-session-block">
-          <div class="all-session-hdr">
-            <div class="all-session-left"><div class="all-session-date">${w.date}</div>${tag}</div>
-            <div class="plain-tag">${w.run_type || 'RUN'}</div>
-          </div>
-          <div class="all-session-body">
-             <div class="run-metric-row" style="margin-top:0;">
-                ${w.distance ? `<div class="run-metric"><span class="run-metric-lbl">Distance</span><span class="run-metric-val">${w.distance} mi</span></div>` : ''}
-                ${w.time ? `<div class="run-metric"><span class="run-metric-lbl">Time</span><span class="run-metric-val">${w.time}</span></div>` : ''}
-                ${w.heartrate ? `<div class="run-metric"><span class="run-metric-lbl">Heartrate</span><span class="run-metric-val">${w.heartrate} bpm</span></div>` : ''}
-                ${w.pace ? `<div class="run-metric"><span class="run-metric-lbl">Avg Pace</span><span class="run-metric-val">${w.pace} mins per mile</span></div>` : ''}
-             </div>
-             ${intervalsHtml}
-             ${w.notes ? `<div class="card-sub" style="margin-top:1rem;border-top:1px solid var(--border);padding-top:0.75rem">${w.notes}</div>` : ''}
-          </div>
-        </div>`;
-        } else {
-          const n = weightWorkoutNum(w);
-          const exHTML = w.exercises.map(ex => `<div class="exercise-row"><div class="ex-name">${ex.name}</div><div class="sets-row">${chips(ex.sets)}</div></div>`).join('');
-
-          return `<div class="all-session-block">
-          <div class="all-session-hdr">
-            <div class="all-session-left"><div class="all-wnum">#${n}</div><div class="all-session-date">${w.date}</div>${tag}</div>
-            <div class="plain-tag">WEIGHTLIFTING</div>
-          </div>
-          <div class="all-session-body">
-            ${exHTML}
-            ${w.notes ? `<div class="card-sub" style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border)">${w.notes}</div>` : ''}
-          </div>
-        </div>`;
-        }
-      }).join('');
+    // ── EXERCISE HISTORY (DOUBLE CLICK SPARTAN LOGO) ──────────
+    function renderExerciseHistory() {
+      if (!WEIGHT_WORKOUTS.length) { document.getElementById('all-content').innerHTML = `<div class="empty-state">No weightlifting data archived.</div>`; return; }
+      const names = [];
+      WEIGHT_WORKOUTS.forEach(w => w.exercises.forEach(ex => { if (!names.includes(ex.name)) names.push(ex.name); }));
+      names.sort();
+      let html = '';
+      names.forEach(name => {
+        const sessions = WEIGHT_WORKOUTS.filter(w => w.exercises.some(e => e.name === name)).slice(-3).reverse();
+        const rows = sessions.map((w, ri) => {
+          const ex = w.exercises.find(e => e.name === name);
+          const tag = ri === 0 ? `<span class="recency-latest">Latest</span>` : '';
+          return `<div class="recent-session-row">
+        <div class="rs-date-col"><span class="rs-date">${w.date.slice(5)}</span>${tag}</div>
+        <div class="rs-sets">${chips(ex.sets)}</div>
+      </div>`;
+        }).join('');
+        html += `<div class="progress-ex-block card"><div class="progress-ex-title">${name}</div>${rows}</div>`;
+      });
       document.getElementById('all-content').innerHTML = html;
     }
 
