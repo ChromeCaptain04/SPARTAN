@@ -3,7 +3,8 @@ name: Parse Spartan Logs
 on:
   push:
     paths:
-      - 'logs/raw/*.txt'
+      # This '**' wildcard ensures it triggers for files in the root OR subfolders like /run/ or /strength/
+      - 'logs/raw/**/*.txt'
       - 'scripts/parse_workout.py'
   workflow_dispatch:
     inputs:
@@ -43,6 +44,7 @@ jobs:
         run: |
           git config user.name "spartan-bot"
           git config user.email "bot@spartan.local"
-          git add logs/json/*.json
+          # Adding the folder recursively ensures it catches the new /run/ and /strength/ subfolders
+          git add logs/json/
           git diff --staged --quiet || git commit -m "auto: parse spartan logs"
           git push

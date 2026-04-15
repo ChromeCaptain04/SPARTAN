@@ -3,13 +3,14 @@ parse_workout.py
 Parses shorthand workout .txt files in logs/raw/ into JSON in logs/json/.
 
 Handles both STRENGTH and ENDURANCE (RUN) formats for SPARTAN.
+Automatically sorts output files into logs/json/strength/ or logs/json/run/.
 
 Strength Format:
-  2026-03-24 | 1 | accumulation | Optional notes here
+  2026-04-15 | strength | Optional notes here
   Squat: 100x5, 100x5, 102.5x5
 
 Run Format:
-  2026-04-07 | run | interval | Optional notes here
+  2026-04-16 | run | tempo | Optional notes here
   5mi | 45:30 | 9:06/mi | 155bpm
   Intervals: 8x400m @ 6:00/mi pace, 60s rest
 """
@@ -18,9 +19,20 @@ import json
 import sys
 from pathlib import Path
 
-RAW_DIR = Path("logs/raw")
-JSON_DIR = Path("logs/json")
-JSON_DIR.mkdir(parents=True, exist_ok=True)
+# Input directories (scans all three to support old flat-folder logs and new subfolders)
+RAW_DIRS = [
+    Path("logs/raw"),
+    Path("logs/raw/strength"),
+    Path("logs/raw/run")
+]
+
+# Output directories
+JSON_STRENGTH_DIR = Path("logs/json/strength")
+JSON_RUN_DIR = Path("logs/json/run")
+
+# Ensure output directories exist
+JSON_STRENGTH_DIR.mkdir(parents=True, exist_ok=True)
+JSON_RUN_DIR.mkdir(parents=True, exist_ok=True)
 
 def parse_set(set_str: str) -> dict:
     set_str = set_str.strip()
@@ -96,14 +108,14 @@ def parse_workout(text: str) -> dict:
         raise ValueError("Empty document")
 
     parts = [p.strip() for p in lines[0].split("|")]
-    if len(parts) < 3:
-        raise ValueError(f"Header requires at least 3 segments separated by pipe.\nGot: {lines[0]}")
+    if len(parts) < 2:
+        raise ValueError(f"Header requires at least 2 segments separated by pipe.\nGot: {lines[0]}")
 
     date = parts[0]
-    is_run = parts[1].lower() == "run"
+    workout_type = parts[1].lower()
 
-    if is_run:
-        run_type = parts[2]
+    if workout_type == "run":
+        run_type = parts[2] if len(parts) > 2 else ""
         notes = parts[3] if len(parts) > 3 else ""
         
         body_data = parse_run_body(lines[1:])
@@ -114,10 +126,8 @@ def parse_workout(text: str) -> dict:
             "notes": notes,
             **body_data
         }
-    else:
-        week = int(parts[1])
-        phase = parts[2]
-        notes = parts[3] if len(parts) > 3 else ""
+    elif workout_type == "strength":
+        notes = parts[2] if len(parts) > 2 else ""
 
         exercises = []
         errors = []
@@ -135,36 +145,70 @@ def parse_workout(text: str) -> dict:
         return {
             "date": date, 
             "type": "weights", 
-            "week": week, 
-            "phase": phase, 
             "notes": notes, 
             "exercises": exercises
         }
+    else:
+        # Fallback to handle legacy formats that used week_num | phase
+        try:
+            week = int(parts[1])
+            phase = parts[2] if len(parts) > 2 else ""
+            notes = parts[3] if len(parts) > 3 else ""
+            
+            exercises = []
+            for line in lines[1:]:
+                if not line or line.startswith("#"): continue
+                exercises.append(parse_exercise_line(line))
+            
+            return {
+                "date": date, 
+                "type": "weights", 
+                "week": week,
+                "phase": phase,
+                "notes": notes, 
+                "exercises": exercises
+            }
+        except Exception:
+            raise ValueError(f"Unknown workout type '{parts[1]}'. Expected 'run' or 'strength'")
 
 def main():
-    raw_files = sorted(RAW_DIR.glob("*.txt"))
+    raw_files = []
+    
+    # Collect all txt files from the root raw directory and new subdirectories
+    for d in RAW_DIRS:
+        if d.exists():
+            for f in d.iterdir():
+                if f.is_file() and f.suffix == ".txt":
+                    raw_files.append(f)
+
     if not raw_files:
-        print("No .txt files found in logs/raw/")
+        print("No .txt files found in logs/raw/, logs/raw/strength/, or logs/raw/run/")
         return
 
     parsed = skipped = errors = 0
     force = "--force" in sys.argv
 
     for txt_path in raw_files:
-        json_path = JSON_DIR / (txt_path.stem + ".json")
-        if json_path.exists() and not force:
-            skipped += 1
-            continue
-
-        print(f"Parsing {txt_path.name}...")
         try:
             text = txt_path.read_text(encoding="utf-8")
             workout = parse_workout(text)
+            
+            # Determine correct output folder based on the parsed data type
+            target_dir = JSON_RUN_DIR if workout["type"] == "run" else JSON_STRENGTH_DIR
+            json_path = target_dir / (txt_path.stem + ".json")
+            
+            # Skip if it already exists in the correct folder, unless forced
+            if json_path.exists() and not force:
+                skipped += 1
+                continue
+
+            print(f"Parsing {txt_path.name} -> {target_dir.name}/")
             json_path.write_text(json.dumps(workout, indent=2), encoding="utf-8")
             print(f"  ✓ {json_path.name}")
             parsed += 1
+            
         except Exception as e:
-            print(f"  ✗ Error: {e}", file=sys.stderr)
+            print(f"  ✗ Error in {txt_path.name}: {e}", file=sys.stderr)
             errors += 1
 
     print(f"\nParsed: {parsed}  Skipped: {skipped}  Errors: {errors}")
