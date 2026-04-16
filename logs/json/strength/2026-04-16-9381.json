@@ -1,0 +1,76 @@
+{
+  "date": "2026-04-16",
+  "type": "weights",
+  "notes": "Alternate deadlifts and hexbar deadlifts on back days, lower back gives out on Yates row, probably need to move to a chest  supported variation",
+  "exercises": [
+    {
+      "name": "Deadlift",
+      "sets": [
+        {
+          "weight_kg": 130.0,
+          "reps": 3,
+          "count": 4
+        }
+      ]
+    },
+    {
+      "name": "Chin ups",
+      "sets": [
+        {
+          "weight_kg": 0.0,
+          "reps": 3
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 3
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 1
+        }
+      ]
+    },
+    {
+      "name": "Yates row",
+      "sets": [
+        {
+          "weight_kg": 50.0,
+          "reps": 7
+        },
+        {
+          "weight_kg": 50.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 50.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Wrist curls",
+      "sets": [
+        {
+          "weight_kg": 17.5,
+          "reps": 8
+        },
+        {
+          "weight_kg": 17.5,
+          "reps": 7
+        },
+        {
+          "weight_kg": 17.5,
+          "reps": 5
+        },
+        {
+          "weight_kg": 17.5,
+          "reps": 3
+        }
+      ]
+    }
+  ]
+}
