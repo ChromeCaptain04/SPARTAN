@@ -1,0 +1,67 @@
+{
+  "date": "2026-04-29",
+  "type": "weights",
+  "notes": "back day, next time add rear delt work to provide balance for shoulder",
+  "exercises": [
+    {
+      "name": "Chin ups",
+      "sets": [
+        {
+          "weight_kg": 0.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 3,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Seated row",
+      "sets": [
+        {
+          "weight_kg": 40.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "name": "Standing dumbell curls",
+      "sets": [
+        {
+          "weight_kg": 18.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 3
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 2
+        }
+      ]
+    }
+  ]
+}
