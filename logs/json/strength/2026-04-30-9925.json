@@ -1,0 +1,58 @@
+{
+  "date": "2026-04-30",
+  "type": "weights",
+  "notes": "1st with hector of term 3 year 4",
+  "exercises": [
+    {
+      "name": "Bench press",
+      "sets": [
+        {
+          "weight_kg": 85.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 85.0,
+          "reps": 3,
+          "count": 3
+        }
+      ]
+    },
+    {
+      "name": "Overhead extension",
+      "sets": [
+        {
+          "weight_kg": 18.0,
+          "reps": 9
+        },
+        {
+          "weight_kg": 21.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 21.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Single arm extensions",
+      "sets": [
+        {
+          "weight_kg": 8.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Dumbell lateral raises",
+      "sets": [
+        {
+          "weight_kg": 4.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    }
+  ]
+}
