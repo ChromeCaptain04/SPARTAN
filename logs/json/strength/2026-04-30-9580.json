@@ -1,0 +1,28 @@
+{
+  "date": "2026-04-30",
+  "type": "weights",
+  "notes": "2nd session, evening before bed",
+  "exercises": [
+    {
+      "name": "Reverse wrist curls",
+      "sets": [
+        {
+          "weight_kg": 10.0,
+          "reps": 13
+        },
+        {
+          "weight_kg": 10.0,
+          "reps": 10
+        },
+        {
+          "weight_kg": 10.0,
+          "reps": 7
+        },
+        {
+          "weight_kg": 10.0,
+          "reps": 6
+        }
+      ]
+    }
+  ]
+}
