@@ -1,0 +1,109 @@
+{
+  "date": "2026-05-03",
+  "type": "weights",
+  "notes": "switched to closer grip on bench and started doing some face pulls for rear delts",
+  "exercises": [
+    {
+      "name": "Bench press",
+      "sets": [
+        {
+          "weight_kg": 90.0,
+          "reps": 3,
+          "count": 2
+        },
+        {
+          "weight_kg": 90.0,
+          "reps": 2
+        }
+      ]
+    },
+    {
+      "name": "Chin ups",
+      "sets": [
+        {
+          "weight_kg": 0.0,
+          "reps": 5,
+          "count": 2
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Lat pulldown",
+      "sets": [
+        {
+          "weight_kg": 54.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Seated rhomboid row",
+      "sets": [
+        {
+          "weight_kg": 25.0,
+          "reps": 100
+        },
+        {
+          "weight_kg": 30.0,
+          "reps": 7
+        },
+        {
+          "weight_kg": 30.0,
+          "reps": 100
+        }
+      ]
+    },
+    {
+      "name": "Seated dumbell curls",
+      "sets": [
+        {
+          "weight_kg": 18.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 3,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Overhead extension",
+      "sets": [
+        {
+          "weight_kg": 21.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    },
+    {
+      "name": "Face pulls",
+      "sets": [
+        {
+          "weight_kg": 21.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Single arm extensions",
+      "sets": [
+        {
+          "weight_kg": 8.0,
+          "reps": 100
+        },
+        {
+          "weight_kg": 11.0,
+          "reps": 100
+        }
+      ]
+    }
+  ]
+}
