@@ -1,0 +1,79 @@
+{
+  "date": "2026-05-06",
+  "type": "weights",
+  "notes": "good back day, face pull technique clicked",
+  "exercises": [
+    {
+      "name": "Chin ups",
+      "sets": [
+        {
+          "weight_kg": 0.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Seated rhomboid row",
+      "sets": [
+        {
+          "weight_kg": 40.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Face pulls",
+      "sets": [
+        {
+          "weight_kg": 16.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    },
+    {
+      "name": "Standing dumbell curls",
+      "sets": [
+        {
+          "weight_kg": 18.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Hammer curls",
+      "sets": [
+        {
+          "weight_kg": 12.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    }
+  ]
+}
