@@ -1,0 +1,61 @@
+{
+  "date": "2026-05-06",
+  "type": "weights",
+  "notes": "felt very weak",
+  "exercises": [
+    {
+      "name": "Machine press",
+      "sets": [
+        {
+          "weight_kg": 40.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 3
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 2
+        },
+        {
+          "weight_kg": 30.0,
+          "reps": 5
+        }
+      ]
+    },
+    {
+      "name": "Overhead extension",
+      "sets": [
+        {
+          "weight_kg": 21.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Single arm extensions",
+      "sets": [
+        {
+          "weight_kg": 8.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Chin ups",
+      "sets": [
+        {
+          "weight_kg": 0.0,
+          "reps": 3
+        },
+        {
+          "weight_kg": 0.0,
+          "reps": 2
+        }
+      ]
+    }
+  ]
+}
