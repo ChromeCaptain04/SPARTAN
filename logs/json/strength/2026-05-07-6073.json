@@ -1,0 +1,81 @@
+{
+  "date": "2026-05-07",
+  "type": "weights",
+  "notes": "went wide grip on second bench set, not good",
+  "exercises": [
+    {
+      "name": "Thick handle wrist curls",
+      "sets": [
+        {
+          "weight_kg": 14.0,
+          "reps": 100,
+          "count": 4
+        }
+      ]
+    },
+    {
+      "name": "Reverse wrist curls",
+      "sets": [
+        {
+          "weight_kg": 10.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    },
+    {
+      "name": "Bench press",
+      "sets": [
+        {
+          "weight_kg": 90.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 90.0,
+          "reps": 1,
+          "count": 2
+        },
+        {
+          "weight_kg": 60.0,
+          "reps": 10
+        }
+      ]
+    },
+    {
+      "name": "Tricep pushdowns",
+      "sets": [
+        {
+          "weight_kg": 26.0,
+          "reps": 10
+        },
+        {
+          "weight_kg": 31.0,
+          "reps": 4
+        }
+      ]
+    },
+    {
+      "name": "Single arm extensions",
+      "sets": [
+        {
+          "weight_kg": 13.0,
+          "reps": 3
+        },
+        {
+          "weight_kg": 11.0,
+          "reps": 8
+        }
+      ]
+    },
+    {
+      "name": "Cable lateral raises",
+      "sets": [
+        {
+          "weight_kg": 6.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    }
+  ]
+}
