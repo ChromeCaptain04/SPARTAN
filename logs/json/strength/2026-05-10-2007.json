@@ -1,0 +1,52 @@
+{
+  "date": "2026-05-10",
+  "type": "weights",
+  "notes": "notes",
+  "exercises": [
+    {
+      "name": "Bench press",
+      "sets": [
+        {
+          "weight_kg": 80.0,
+          "reps": 8
+        },
+        {
+          "weight_kg": 80.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 80.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 80.0,
+          "reps": 5
+        }
+      ]
+    },
+    {
+      "name": "Single arm pushdowns",
+      "sets": [
+        {
+          "weight_kg": 13.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 11.0,
+          "reps": 100,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Cable lateral raises",
+      "sets": [
+        {
+          "weight_kg": 6.0,
+          "reps": 100,
+          "count": 3
+        }
+      ]
+    }
+  ]
+}
