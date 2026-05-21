@@ -1,0 +1,113 @@
+{
+  "date": "2026-05-21",
+  "type": "weights",
+  "notes": "back to full strength after illness",
+  "exercises": [
+    {
+      "name": "Flat dumbell press",
+      "sets": [
+        {
+          "weight_kg": 30.0,
+          "reps": 8
+        },
+        {
+          "weight_kg": 32.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 32.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 32.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Decline press",
+      "sets": [
+        {
+          "weight_kg": 40.0,
+          "reps": 5
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 40.0,
+          "reps": 2
+        }
+      ]
+    },
+    {
+      "name": "Tricep pushdown",
+      "sets": [
+        {
+          "weight_kg": 31.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 31.0,
+          "reps": 5
+        }
+      ]
+    },
+    {
+      "name": "Single arm tricep pushdowns",
+      "sets": [
+        {
+          "weight_kg": 11.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 11.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 8.0,
+          "reps": 7
+        }
+      ]
+    },
+    {
+      "name": "Seated dumbell curl",
+      "sets": [
+        {
+          "weight_kg": 16.0,
+          "reps": 10
+        },
+        {
+          "weight_kg": 16.0,
+          "reps": 6
+        },
+        {
+          "weight_kg": 16.0,
+          "reps": 4
+        },
+        {
+          "weight_kg": 16.0,
+          "reps": 3
+        }
+      ]
+    },
+    {
+      "name": "Wrist curls",
+      "sets": [
+        {
+          "weight_kg": 18.0,
+          "reps": 9
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 7
+        },
+        {
+          "weight_kg": 18.0,
+          "reps": 5
+        }
+      ]
+    }
+  ]
+}
